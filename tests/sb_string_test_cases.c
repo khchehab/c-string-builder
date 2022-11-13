@@ -9,6 +9,7 @@ void test_sb_two_appends(void);
 void test_sb_multiple_appends(void);
 void test_sb_max_appends(void);
 void test_sb_more_than_max_appends(void);
+void test_sb_multiple_appends_with_null(void);
 
 void setUp(void) {}
 void tearDown(void) {}
@@ -22,6 +23,7 @@ int main(int argc, const char** argv) {
     RUN_TEST(test_sb_multiple_appends);
     RUN_TEST(test_sb_max_appends);
     RUN_TEST(test_sb_more_than_max_appends);
+    RUN_TEST(test_sb_multiple_appends_with_null);
 
     return UNITY_END();
 }
@@ -203,5 +205,29 @@ void test_sb_more_than_max_appends(void) {
 
     free(string);
 
+    sb_free(sb);
+}
+
+void test_sb_multiple_appends_with_null(void) {
+    string_builder_t* sb = sb_init();
+    TEST_ASSERT_NOT_NULL(sb);
+
+    int ret = sb_append_string(sb, "Hello");
+    TEST_ASSERT_EQUAL_INT(SB_NO_ERROR, ret);
+    ret = sb_append_string(sb, " ");
+    TEST_ASSERT_EQUAL_INT(SB_NO_ERROR, ret);
+    ret = sb_append_string(sb, NULL);
+    TEST_ASSERT_EQUAL_INT(SB_NO_ERROR, ret);
+    ret = sb_append_string(sb, "World");
+    TEST_ASSERT_EQUAL_INT(SB_NO_ERROR, ret);
+    ret = sb_append_string(sb, "!");
+    TEST_ASSERT_EQUAL_INT(SB_NO_ERROR, ret);
+
+    char* string = sb_to_string(sb);
+    TEST_ASSERT_NOT_NULL(string);
+    TEST_ASSERT_NOT_EMPTY(string);
+    TEST_ASSERT_EQUAL_STRING("Hello World!", string);
+
+    free(string);
     sb_free(sb);
 }
