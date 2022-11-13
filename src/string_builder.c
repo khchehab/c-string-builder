@@ -18,6 +18,10 @@ struct string_builder_ {
     size_t pos;
 };
 
+#define sb_append_pre_validation(sb) if (sb == NULL || sb->pos >= SB_MAX_LENGTH) { return SB_ERROR; }
+
+void sb_append_fragment(string_builder_t*, size_t, const char*);
+
 string_builder_t* sb_init(void) {
     string_builder_t* sb = malloc(sizeof(string_builder_t));
     sb->total_count = 0;
@@ -34,17 +38,18 @@ void sb_free(string_builder_t* sb) {
 }
 
 int sb_append_string(string_builder_t* sb, const char* str) {
-    if (sb == NULL || sb->pos >= SB_MAX_LENGTH) {
-        return SB_ERROR;
-    }
-
     if (str == NULL) {
         return SB_NO_ERROR;
     }
 
-    size_t length = strlen(str);
-    sb->fragments[sb->pos++] = (string_fragment_t) { .str = str, .length = length };
-    sb->total_count += length;
+    sb_append_pre_validation(sb);
+    sb_append_fragment(sb, strlen(str), str);
+    return SB_NO_ERROR;
+}
+
+int sb_append_char(string_builder_t* sb, const char chr) {
+    sb_append_pre_validation(sb);
+    sb_append_fragment(sb, 1, &chr);
     return SB_NO_ERROR;
 }
 
@@ -63,4 +68,11 @@ char* sb_to_string(string_builder_t* sb) {
     }
 
     return string;
+}
+
+/* Private Functions */
+
+void sb_append_fragment(string_builder_t* sb, size_t length, const char* str) {
+    sb->fragments[sb->pos++] = (string_fragment_t) { .str = str, .length = length };
+    sb->total_count += length;
 }

@@ -37,6 +37,14 @@ void sb_free(string_builder_t* sb);
 int sb_append_string(string_builder_t* sb, const char* str);
 
 /**
+ * @brief Appends a character to the string builder.
+ * @param sb string builder object.
+ * @param chr character to append.
+ * @return int return code of the append function.
+ */
+int sb_append_char(string_builder_t* sb, const char chr);
+
+/**
  * @brief Returns a string containing the appended string fragments.
  *        Note that the returned string has been allocated using malloc, so it needs to be freed when done with it.
  * @param sb string builder object.
