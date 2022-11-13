@@ -4,7 +4,7 @@
 /**
  * @brief Enum for the function returns of string builder functions.
  */
-enum { SB_NO_ERROR, SB_ERROR };
+enum { SB_ERROR, SB_NO_ERROR };
 
 /**
  * @brief The maximum string buffer array size (can append a maximum of this number of strings).
