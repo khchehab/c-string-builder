@@ -1,0 +1,5 @@
+Copy and put the Unity source code here to run unit tests. The git repo of Unity is https://github.com/ThrowTheSwitch/Unity.
+The required files are:
+* unity_internals.h
+* unity.h
+* unity.c
