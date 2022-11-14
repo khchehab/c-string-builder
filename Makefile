@@ -18,9 +18,10 @@ all: build
 	@$(EXE_FLAGS) ./$(BIN)/$(EXE)
 
 build: clean $(BIN)
-	@$(CC) $(SRC)/string_builder.c $(TESTS)/sb_*_test_cases.c $(TESTS)/Unity/unity.c \
-		   -I$(SRC)                                                                  \
-		   $(C_FLAGS)                                                                \
+	@$(CC) $(SRC)/string_builder.c                                                    \
+	       $(TESTS)/Unity/unity.c $(TESTS)/sb_test_cases.c $(TESTS)/sb_*_test_cases.c \
+		   -I$(SRC)                                                                   \
+		   $(C_FLAGS)                                                                 \
 		   -o $(BIN)/$(EXE)
 
 $(BIN):

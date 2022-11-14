@@ -3,32 +3,7 @@
 #include "Unity/unity.h"
 #include "string_builder.h"
 
-void test_sb_zero_appends(void);
-void test_sb_one_append(void);
-void test_sb_two_appends(void);
-void test_sb_multiple_appends(void);
-void test_sb_max_appends(void);
-void test_sb_more_than_max_appends(void);
-void test_sb_multiple_appends_with_null(void);
-
-void setUp(void) {}
-void tearDown(void) {}
-
-int main(int argc, const char** argv) {
-    UNITY_BEGIN();
-
-    RUN_TEST(test_sb_zero_appends);
-    RUN_TEST(test_sb_one_append);
-    RUN_TEST(test_sb_two_appends);
-    RUN_TEST(test_sb_multiple_appends);
-    RUN_TEST(test_sb_max_appends);
-    RUN_TEST(test_sb_more_than_max_appends);
-    RUN_TEST(test_sb_multiple_appends_with_null);
-
-    return UNITY_END();
-}
-
-void test_sb_zero_appends(void) {
+void test_sb_string_zero_appends(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
@@ -40,7 +15,7 @@ void test_sb_zero_appends(void) {
     sb_free(sb);
 }
 
-void test_sb_one_append(void) {
+void test_sb_string_one_append(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
@@ -56,7 +31,7 @@ void test_sb_one_append(void) {
     sb_free(sb);
 }
 
-void test_sb_two_appends(void) {
+void test_sb_string_two_appends(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
@@ -74,7 +49,7 @@ void test_sb_two_appends(void) {
     sb_free(sb);
 }
 
-void test_sb_multiple_appends(void) {
+void test_sb_string_multiple_appends(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
@@ -96,7 +71,7 @@ void test_sb_multiple_appends(void) {
     sb_free(sb);
 }
 
-void test_sb_max_appends(void) {
+void test_sb_string_max_appends(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
@@ -150,7 +125,7 @@ void test_sb_max_appends(void) {
     sb_free(sb);
 }
 
-void test_sb_more_than_max_appends(void) {
+void test_sb_string_more_than_max_appends(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
@@ -208,7 +183,7 @@ void test_sb_more_than_max_appends(void) {
     sb_free(sb);
 }
 
-void test_sb_multiple_appends_with_null(void) {
+void test_sb_string_multiple_appends_with_null(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);
 
