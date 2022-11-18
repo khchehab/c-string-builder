@@ -3,18 +3,6 @@
 #include "Unity/unity.h"
 #include "string_builder.h"
 
-void test_sb_string_zero_appends(void) {
-    string_builder_t* sb = sb_init();
-    TEST_ASSERT_NOT_NULL(sb);
-
-    char* string = sb_to_string(sb);
-    TEST_ASSERT_NULL(string);
-    TEST_ASSERT_EMPTY(string);
-
-    free(string);
-    sb_free(sb);
-}
-
 void test_sb_string_one_append(void) {
     string_builder_t* sb = sb_init();
     TEST_ASSERT_NOT_NULL(sb);

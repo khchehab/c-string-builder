@@ -8,6 +8,7 @@
 typedef struct {
     const char* str;
     size_t length;
+    int used_malloc;
 } string_fragment_t;
 
 // TODO Maybe move the array to a linked list (to avoid having a cap size)
@@ -18,9 +19,12 @@ struct string_builder_ {
     size_t pos;
 };
 
-#define sb_append_pre_validation(sb) if (sb == NULL || sb->pos >= SB_MAX_LENGTH) { return SB_ERROR; }
-
-void sb_append_fragment(string_builder_t*, size_t, const char*);
+#define sb_append_pre_validation(sb) if (sb == NULL || sb->pos >= SB_MAX_LENGTH) { \
+                                         return SB_ERROR;                          \
+                                     }
+#define sb_append_fragment(sb, len, s, mallocd) size_t length = len;                                                                                   \
+                                                sb->fragments[sb->pos++] = (string_fragment_t) { .str = s, .length = length, .used_malloc = mallocd }; \
+                                                sb->total_count += length
 
 string_builder_t* sb_init(void) {
     string_builder_t* sb = malloc(sizeof(string_builder_t));
@@ -34,6 +38,15 @@ void sb_free(string_builder_t* sb) {
         return;
     }
 
+    string_fragment_t fragment;
+    size_t i;
+    for(i = 0; i < sb->pos; ++i) {
+        fragment = sb->fragments[i];
+        if (fragment.used_malloc) {
+            free((char*) fragment.str);
+        }
+    }
+
     free(sb);
 }
 
@@ -43,13 +56,16 @@ int sb_append_string(string_builder_t* sb, const char* str) {
     }
 
     sb_append_pre_validation(sb);
-    sb_append_fragment(sb, strlen(str), str);
+    sb_append_fragment(sb, strlen(str), str, 0);
     return SB_NO_ERROR;
 }
 
 int sb_append_char(string_builder_t* sb, const char chr) {
     sb_append_pre_validation(sb);
-    sb_append_fragment(sb, 1, &chr);
+    char* str = malloc(sizeof(char) * 2);
+    str[0] = chr;
+    str[1] = '\0';
+    sb_append_fragment(sb, 1, str, 1);
     return SB_NO_ERROR;
 }
 
@@ -68,11 +84,4 @@ char* sb_to_string(string_builder_t* sb) {
     }
 
     return string;
-}
-
-/* Private Functions */
-
-void sb_append_fragment(string_builder_t* sb, size_t length, const char* str) {
-    sb->fragments[sb->pos++] = (string_fragment_t) { .str = str, .length = length };
-    sb->total_count += length;
 }
