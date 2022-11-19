@@ -1,4 +1,0 @@
-* Generate docs for the documentation
-* Check some directives if can be used to determine if string.h was not found to use custom methods or maybe even replace with private function to reduce the number of includes
-* Replace the implementation of array of fragments to linked list to avoid having a fixed maximum number of fragments.
-* Separate the Makefile targets, to build the string builder alone and with the tests alone as well to be able to build without tests
